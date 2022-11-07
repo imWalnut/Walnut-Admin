@@ -1,0 +1,11 @@
+# 帮助开发人员在不同的编辑器和IDE中定义和维护一致的编码风格
+
+[*.{js,jsx,ts,tsx,vue}]
+# 缩进风格软缩进
+indent_style = space
+# 首行缩进宽度
+indent_size = 2
+# 去除换行行首的任意空白字符
+trim_trailing_whitespace = true
+# 文件以一个空白行结尾
+insert_final_newline = true
