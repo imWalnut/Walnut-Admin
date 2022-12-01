@@ -37,8 +37,8 @@ export default {
     home: '首页',
     login: '登陆',
     index: '索引',
-    elementPlus: '饿了么矢量图',
-    aliIcon: '阿里矢量图',
+    table: '表格',
+    icon: '图标',
     components: '组件',
     functions: '方法',
   }

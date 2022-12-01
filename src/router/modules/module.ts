@@ -2,7 +2,7 @@ import {RouteRecordRaw} from 'vue-router'
 import {ERouteName, ERoutePath, ERouteTitle} from "@/serviceType"
 import util from "@/utils/util";
 
-const routes: RouteRecordRaw[] = [
+const routes:Array<RouteRecordRaw> = [
     {
         //首页
         path: ERoutePath.HOME,
@@ -13,22 +13,22 @@ const routes: RouteRecordRaw[] = [
         component: util.handleComponentPath(ERoutePath.HOME),
     },
     {
-        // /组件/图标/Element Plus
-        path: ERoutePath.ELEMENTPLUS,
-        name: ERouteName.ELEMENTPLUS,
+        // /组件/数据展示/表格
+        path: ERoutePath.TABLE,
+        name: ERouteName.TABLE,
         meta: {
-            title: ERouteTitle.ELEMENTPLUS,
+            title: ERouteTitle.TABLE,
         },
-        component: util.handleComponentPath(ERoutePath.HOME),
+        component: util.handleComponentPath(ERoutePath.TABLE),
     },
     {
-        // /组件/图标/阿里矢量图
-        path: ERoutePath.ALIICON,
-        name: ERouteName.ALIICON,
+        // /组件/基础组件/图标
+        path: ERoutePath.ICON,
+        name: ERouteName.ICON,
         meta: {
-            title: ERouteTitle.ALIICON,
+            title: ERouteTitle.ICON,
         },
-        component: util.handleComponentPath(ERoutePath.HOME),
+        component: util.handleComponentPath(ERoutePath.ICON),
     },
     {
         // /文档/组件
@@ -37,7 +37,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
             title: ERouteTitle.COMPONENTS,
         },
-        component: util.handleComponentPath(ERoutePath.COMPONENTS),
+        component: util.handleComponentPath(ERoutePath.HOME),
     },
     {
         // /文档/方法
@@ -46,7 +46,7 @@ const routes: RouteRecordRaw[] = [
         meta: {
             title: ERouteTitle.FUNCTIONS,
         },
-        component: util.handleComponentPath(ERoutePath.FUNCTIONS),
+        component: util.handleComponentPath(ERoutePath.HOME),
     },
 
 ]

@@ -1,12 +1,12 @@
 import http from "@/utils/http"
-import {EApiSite} from '@/serviceType/index'
+import { EHttpMethod, EApiSite } from "@/serviceType/index";
 
 class UserInfoService {
   // POST请求示例
   postDemo(data:any) {
     return http({
       url:`${EApiSite.BASE}/test/post`,
-      method:'POST',
+      method: EHttpMethod.POST,
       data
     })
   }
@@ -14,7 +14,8 @@ class UserInfoService {
   // GET请求示例
   getDemo(params:any) {
     return http({
-      url: `${EApiSite.BASE}/test/get?params=${params}`
+      url: `${EApiSite.BASE}/test/get?params=${params}`,
+      method: EHttpMethod.GET,
     })
   }
 }

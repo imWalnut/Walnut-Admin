@@ -10,6 +10,20 @@ const usePiniaStore = defineStore('demo', () => {
     isCollapse.value = !isCollapse.value
   }
 
+  // 主题
+  const myTheme = ref('default')
+
+  const handleTheme = () => {
+    switch (myTheme.value) {
+      case 'default':
+        myTheme.value = 'subfield'
+        break;
+      case 'subfield':
+        myTheme.value = 'default'
+        break;
+    }
+  }
+
   // 已激活的路由信息
   const routeList:any = ref([
     {
@@ -26,8 +40,10 @@ const usePiniaStore = defineStore('demo', () => {
     isCollapse,
     handleIsCollapse,
     routeList,
-    handleRouteList
+    handleRouteList,
+    myTheme,
+    handleTheme
   }
-})
+}, {persist : {enabled: true}})
 
 export default usePiniaStore

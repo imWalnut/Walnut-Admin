@@ -6,6 +6,8 @@ import {
 import './index.less'
 import wMenu from "@/components/wMenu";
 import wNavigation from "@/components/wNavigation";
+import {storeToRefs} from "pinia";
+import usePiniaStore from "@/store";
 
 export default defineComponent({
   name: "Index",
@@ -15,18 +17,19 @@ export default defineComponent({
   },
   props: {},
   setup(props, { attrs, slots, emit, expose }) {
-    const currentInstance: any = getCurrentInstance()
-    const proxy: any = currentInstance.proxy
+    // 仓库引用
+    const piniaStore = usePiniaStore()
+    const {isCollapse} = storeToRefs(piniaStore)
 
     onMounted(async ()=> {})
 
     return () => (
       <div class="index">
         <wMenu />
-        <div class="index-main">
+        <div class={isCollapse.value ? 'index-main index-collapse' : 'index-main'}>
           <wNavigation />
           <div class="main-content">
-            <router-view/>
+            <router-view class="page-main"/>
           </div>
         </div>
       </div>

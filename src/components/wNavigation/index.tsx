@@ -8,7 +8,7 @@ import {
 import './index.less'
 import {ERouteName, ERoutePath, IRouteParams} from "@/serviceType";
 import usePiniaStore from "@/store";
-import {storeToRefs} from "_pinia@2.0.23@pinia";
+import {storeToRefs} from "pinia";
 
 export default defineComponent({
   name: "navigationBar",
@@ -43,6 +43,11 @@ export default defineComponent({
       fullScreen.value = !fullScreen.value
     }
 
+    // 主题
+    const handleChangeTheme = () => {
+      piniaStore.handleTheme()
+    }
+
     // 退出登录
     const handleLogout = () => {
       proxy.$router.push(ERoutePath.LOGIN)
@@ -55,7 +60,9 @@ export default defineComponent({
         return item.path !== val
       })
       piniaStore.handleRouteList(routes)
-      proxy.$router.push(routes[routes.length - 1].path)
+      if (val === proxy.$route.fullPath) {
+        proxy.$router.push(routes[routes.length - 1].path)
+      }
     }
 
     // 路由跳转
@@ -165,7 +172,7 @@ export default defineComponent({
 
     // 页签
     const renderTabs = () => {
-      const tabItem = routeList.value.map((item: IRouteParams, index: number) => {
+      const tabItem: any = routeList.value.map((item: IRouteParams, index: number) => {
         return (
           <el-tab-pane closable={index !== 0} class="tabs-item" label={item.name} key={item.path} name={item.path}/>
         )
@@ -183,12 +190,12 @@ export default defineComponent({
     // 下拉菜单项
     const renderDropdownItem = () => {
       return (
-        <el-dropdown-menu>
-          <el-dropdown-item command="all">{proxy.$t('common.closeAll')}</el-dropdown-item>
-          <el-dropdown-item command="other">{proxy.$t('common.closeOther')}</el-dropdown-item>
-          <el-dropdown-item command="right">{proxy.$t('common.closeRight')}</el-dropdown-item>
-          <el-dropdown-item command="left">{proxy.$t('common.closeLeft')}</el-dropdown-item>
-        </el-dropdown-menu>
+        {dropdown: () => <el-dropdown-menu>
+            <el-dropdown-item command={'all'}>{proxy.$t('common.closeAll')}</el-dropdown-item>
+            <el-dropdown-item command={'other'}>{proxy.$t('common.closeOther')}</el-dropdown-item>
+            <el-dropdown-item command={'right'}>{proxy.$t('common.closeRight')}</el-dropdown-item>
+            <el-dropdown-item command={'left'}>{proxy.$t('common.closeLeft')}</el-dropdown-item>
+          </el-dropdown-menu>}
       )
     }
 
@@ -201,8 +208,10 @@ export default defineComponent({
           </div>
           <div class="navigation-top-right">
             <wIcon icon="Refresh" size={20} title={proxy.$t('common.refresh')}/>
-            <wIcon icon="FullScreen" size={20} title={fullScreen.value ? proxy.$t('common.exitFullScreen') : proxy.$t('common.fullScreen')} onClick={handleFullScreen}/>
-            <wIcon icon="View" size={20} title={proxy.$t('common.theme')}/>
+            <wIcon icon="FullScreen" size={20}
+                   title={fullScreen.value ? proxy.$t('common.exitFullScreen') : proxy.$t('common.fullScreen')}
+                   onClick={handleFullScreen}/>
+            <wIcon icon="View" size={20} title={proxy.$t('common.theme')} onClick={handleChangeTheme}/>
             <img src={proxy.$util.handleImageUrl('logo.png')}/>
             <span class="navigation-name">admin</span>
             <span class="navigation-exit" onClick={handleLogout}>{`[${proxy.$t('common.logout')}]`}</span>
@@ -214,7 +223,7 @@ export default defineComponent({
           <el-dropdown
             class="navigation-bottom-menu"
             onCommand={handleClickDropdown}
-            v-slots={{dropdown: renderDropdownItem()}}>
+            v-slots={renderDropdownItem()}>
             <wIcon icon="Menu" size={20}/>
           </el-dropdown>
         </div>

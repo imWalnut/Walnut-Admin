@@ -5,8 +5,8 @@ export const ERouteName:any = {
   LOGIN: _t('routeInfo.login'),
   INDEX: _t('routeInfo.index'),
   HOME: _t('routeInfo.home'),
-  ELEMENTPLUS: _t('routeInfo.elementPlus'),
-  ALIICON: _t('routeInfo.aliIcon'),
+  TABLE: _t('routeInfo.table'),
+  ICON: _t('routeInfo.icon'),
   COMPONENTS: _t('routeInfo.components'),
   FUNCTIONS: _t('routeInfo.functions'),
 }
@@ -15,8 +15,8 @@ export enum ERoutePath {
   LOGIN = '/login',
   INDEX = '/index',
   HOME = '/home',
-  ELEMENTPLUS = '/component/icon/element',
-  ALIICON = '/component/icon/aliIcon',
+  TABLE = '/module/show/table',
+  ICON = '/module/base/icon',
   COMPONENTS = '/document/components',
   FUNCTIONS = '/document/functions',
 }
@@ -25,8 +25,8 @@ export enum ERouteTitle {
   LOGIN = '登陆',
   INDEX = '主页',
   HOME = '首页',
-  ELEMENTPLUS = '组件/图标/饿了么矢量图',
-  ALIICON = '组件/图标/阿里矢量图',
+  TABLE = '组件/数据展示/表格',
+  ICON = '组件/基础组件/图标',
   COMPONENTS = '文档/组件',
   FUNCTIONS = '文档/方法',
 }

@@ -37,8 +37,8 @@ export default {
     home: 'Home',
     login: 'Login',
     index: 'Index',
-    elementPlus: 'ElementPlus',
-    ALIICON: 'AliIcon',
+    table: 'Table',
+    icon: 'Icon',
     components: 'Components',
     functions: 'Functions',
   }

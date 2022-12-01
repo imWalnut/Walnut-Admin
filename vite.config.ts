@@ -3,7 +3,6 @@ import vue from '@vitejs/plugin-vue'
 import {resolve} from 'path'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
@@ -11,7 +10,7 @@ export default defineConfig({
   ],
   server: {
     port: 10050,
-    host: '172.23.143.76',
+    host: '0.0.0.0',
     open: true,
   },
   css: {

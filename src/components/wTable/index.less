@@ -1,0 +1,20 @@
+.wTable {
+  height: 100%;
+
+  .table-footer {
+    height: 50px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .table-main {
+    height: calc(100% - 50px);
+
+    .el-table__header {
+
+      .el-table__cell {
+        background: @table-header-bg;
+      }
+    }
+  }
+}

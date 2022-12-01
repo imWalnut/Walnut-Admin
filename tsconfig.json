@@ -13,6 +13,7 @@
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "experimentalDecorators": true,
+    "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

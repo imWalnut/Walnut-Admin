@@ -21,9 +21,10 @@
 // handleTrimBothSpace 清除字符串左右两边的空格
 
 import dayjs from "dayjs";
-import {getCurrentInstance} from "vue";
-import {ERoutePath} from "@/serviceType";
-const modules = import.meta.glob('@/views/*/*.tsx')
+import {ERoutePath, ESex} from "@/serviceType";
+const modulesFirst = import.meta.glob('@/views/*/*.tsx')
+const modulesSecond = import.meta.glob('@/views/*/*/*.tsx')
+const modulesThird = import.meta.glob('@/views/*/*/*/*.tsx')
 
 class Util {
   /**
@@ -421,8 +422,22 @@ class Util {
    * @param routeName: 页面路径
    */
   handleComponentPath(routePath: ERoutePath) {
-    return modules[`/src/views${routePath}/index.tsx`]
+    const path:string = `/src/views${routePath}/index.tsx`
+    let module:any
+    switch (routePath.split('/').length) {
+      case 2:
+      module = modulesFirst[path]
+        break;
+      case 3:
+      module = modulesSecond[path]
+        break;
+      case 4:
+      module = modulesThird[path]
+        break;
+    }
+    return module
   }
+
 }
 
 export default new Util()

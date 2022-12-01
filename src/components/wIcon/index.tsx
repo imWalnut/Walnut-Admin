@@ -10,21 +10,24 @@ export default defineComponent({
   name: "wIcon",
   components: {},
   props: {
+    // 图标
     icon: {
       default: '',
       type: String
     },
+    // 图标颜色
     color: {
       default: '',
       type: String
     },
+    // 图标大小
     size: {
       default: 14,
       type: Number
     },
   },
   setup(props, {attrs, slots, emit, expose}) {
-    const ElementPlusIcons:any = ElementPlusIconsVue
+    const ElementPlusIcons:any = ElementPlusIconsVue // 引用element icon
     const icon = ref('')
     const size = ref(14)
     const color = ref('')
@@ -39,7 +42,7 @@ export default defineComponent({
     })
 
     return () => {
-      const component = ElementPlusIcons[icon.value]
+      const component = ElementPlusIcons[icon.value]  // 动态生成icon
       return (
         <el-icon color={color.value} size={size.value}>
           {icon.value && <component />}

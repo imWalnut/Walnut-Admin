@@ -17,7 +17,7 @@ export default defineComponent({
   },
   props: {
     multiple: {
-      default: 2,
+      default: 1.5,
       type: Number
     }
   },

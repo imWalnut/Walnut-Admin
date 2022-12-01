@@ -3,12 +3,13 @@ import {
   defineComponent,
   ref,
   onMounted,
-  watchEffect
+  watchEffect,
+  computed
 } from "vue"
 import './index.less'
 import {IRouteParams} from "@/serviceType";
 import usePiniaStore from "@/store";
-import {storeToRefs} from "_pinia@2.0.23@pinia";
+import {storeToRefs} from "pinia";
 
 export default defineComponent({
   name: "menuBar",
@@ -20,7 +21,7 @@ export default defineComponent({
 
     // 仓库引用
     const piniaStore = usePiniaStore()
-    const {isCollapse, routeList} = storeToRefs(piniaStore)
+    const {isCollapse, myTheme} = storeToRefs(piniaStore)
 
     // 页面变量
     let menuList: any = ref([])
@@ -38,28 +39,35 @@ export default defineComponent({
         },
         {
           name: '组件',
-          path: '/component',
+          path: '/module',
           icon: '',
           children: [
             {
-              name: '图标',
-              path: '/component/icon',
+              name: '基础组件',
+              path: '/module/base',
               icon: '',
               children: [
                 {
-                  name: '饿了么矢量图',
-                  path: '/component/icon/element',
-                  icon: '',
-                  children: []
-                },
-                {
-                  name: '阿里矢量图',
-                  path: '/component/icon/aliIcon',
+                  name: '图标',
+                  path: '/module/base/icon',
                   icon: '',
                   children: []
                 },
               ]
             },
+            {
+              name: '数据展示',
+              path: '/module/show',
+              icon: '',
+              children: [
+                {
+                  name: '表格',
+                  path: '/module/show/table',
+                  icon: '',
+                  children: []
+                },
+              ]
+            }
           ]
         },
         {
@@ -82,7 +90,7 @@ export default defineComponent({
           ]
         },
       ]
-      let index = menuList.value.findIndex((item:IRouteParams) => item.path === activeMenuPath.value)
+      let index = menuList.value.findIndex((item: IRouteParams) => item.path === activeMenuPath.value)
       subMenuList.value = menuList.value[index].children || []
     }
 
@@ -111,25 +119,7 @@ export default defineComponent({
 
     // 路由跳转
     const handleJump = (val:any) => {
-      handleTabs(val)
       proxy.$router.push(val.path)
-    }
-
-    // 导航栏tabs值修改
-    const handleTabs = (val:any) => {
-      let routes:Array<IRouteParams> = proxy.$util.handleDeepClone(routeList.value)
-      let isInclude:boolean = routes.some((item:IRouteParams) => {
-        if (item.path === val.path) {
-          return true
-        }
-      })
-      if (!isInclude) {
-        routes.push({
-          name: val.name,
-          path: val.path
-        })
-        piniaStore.handleRouteList(routes)
-      }
     }
 
     // 判断当前激活的菜单
@@ -141,7 +131,7 @@ export default defineComponent({
     // 菜单名称获取
     const handleMenuName = () => {
       let obj:any = subMenuList.value[0]
-      let clickObj = menuList.value.find((item:any) => {return item.path === ('/' + obj.path.split('/')[1])})
+      let clickObj = menuList.value.find((item: IRouteParams) => {return item.path === ('/' + obj.path.split('/')[1])})
       return clickObj.name
     }
 
@@ -153,10 +143,9 @@ export default defineComponent({
 
     onMounted(async () => {
       await handleMenuList()
-      await handleTabs(proxy.$route)
     })
 
-    // 最底层菜单项
+    // 分栏-最底层菜单项
     const renderMenuItem = (val:any) => {
       return (
         <el-menu-item index={val.path} onClick={() => handleJump(val)}>
@@ -167,25 +156,26 @@ export default defineComponent({
       )
     }
 
-    // 子菜单
+    // 分栏-子菜单
     const renderSubMenu = (val:any) => {
-      let menuItem = val.children.map((item:any) => {
+      let menuItem = val.children.map((item: any) => {
         if (item.children && item.children.length > 0) {
           return renderSubMenu(item)
         } else {
           return renderMenuItem(item)
         }
       })
+      const slotsTitle = {title: () => val.name}
       return (
-        <el-sub-menu class="sub-menu" index={val.path} v-slots={{title: val.name}}>
+        <el-sub-menu class="sub-menu" index={val.path} v-slots={slotsTitle}>
           {menuItem}
         </el-sub-menu>
       )
     }
 
-    // 主菜单栏
+    // 分栏-主菜单栏
     const renderFatherMenu = () => {
-      let menuItem = menuList.value.map((item: any) => {
+      let menuItem = menuList.value.map((item: IRouteParams) => {
         return (
           <div class={handleIsActive(item) ? "menu-father-item is-active" : "menu-father-item"} onClick={() => handleChangeMenu(item)}>
             <div class="father-item-icon"></div>
@@ -202,9 +192,9 @@ export default defineComponent({
       )
     }
 
-    // 子菜单栏
-    const renderChildMenu = (data: Array<any>) => {
-      let menuItems = data.map((item:any) => {
+    // 分栏-子菜单栏
+    const renderChildMenu = (data: Array<IRouteParams>) => {
+      let menuItems = data.map((item: any) => {
         if (item.children && item.children.length > 0) {
           return renderSubMenu(item)
         } else {
@@ -220,23 +210,79 @@ export default defineComponent({
       )
     }
 
+    // 分栏
+    const renderSubfield = () => {
+      return (
+        <div class="menu-subfield">
+          <div class="menu-left">
+            <div class="menu-left-top">
+              <img src={proxy.$util.handleImageUrl('logo.png')}/>
+            </div>
+            {menuList.value.length > 0 && renderFatherMenu()}
+          </div>
+          {!isCollapse.value && subMenuList.value.length > 0 && <div class="menu-right">
+            <div class="menu-right-top">
+              {proxy.$t('common.webName')}
+            </div>
+            <div class="menu-right-mid">
+              <el-divider content-position="center">{handleMenuName}</el-divider>
+            </div>
+            {renderChildMenu(subMenuList.value)}
+          </div>}
+        </div>
+      )
+    }
+
+    // 默认-顶部
+    const renderHeader = () => {
+      return (
+        <div class="menu-header">
+          {isCollapse.value && <img src={proxy.$util.handleImageUrl('logo.png')}/>}
+          {!isCollapse.value && <>
+            <img src={proxy.$util.handleImageUrl('logo.png')}/>
+            {proxy.$t('common.webName')}
+          </>}
+        </div>
+      )
+    }
+
+    // 默认-菜单
+    const renderMenu = () => {
+      const subMenu = menuList.value.map(item => {
+        if (item.children && item.children.length > 0) {
+          return renderSubMenu(item)
+        } else {
+          return renderMenuItem(item)
+        }
+      })
+      return (
+        <div class="menu-main">
+          <el-menu
+            collapse-transition={false}
+            class="el-menu-vertical"
+            collapse={isCollapse.value}
+            ref="menu"
+            default-active={proxy.$route.path}>
+            {subMenu}
+          </el-menu>
+        </div>
+      )
+    }
+
+    // 默认
+    const renderDefault = () => {
+      return (
+        <div class="menu-default">
+          {renderHeader()}
+          {renderMenu()}
+        </div>
+      )
+    }
+
     return () => (
       <div class="menu">
-        <div class="menu-left">
-          <div class="menu-left-top">
-            <img src={proxy.$util.handleImageUrl('logo.png')}/>
-          </div>
-          {menuList.value.length > 0 && renderFatherMenu()}
-        </div>
-        {!isCollapse.value && subMenuList.value.length > 0 && <div class="menu-right">
-          <div class="menu-right-top">
-            {proxy.$t('common.webName')}
-          </div>
-          <div class="menu-right-mid">
-            <el-divider content-position="center">{handleMenuName}</el-divider>
-          </div>
-          {renderChildMenu(subMenuList.value)}
-        </div>}
+        {myTheme.value === 'subfield' && renderSubfield()}
+        {myTheme.value === 'default' && renderDefault()}
       </div>
     )
   }
