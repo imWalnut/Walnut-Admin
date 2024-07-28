@@ -1,0 +1,30 @@
+.wTable {
+  height: calc(100% - 30px);
+  padding: 15px;
+  background: white;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  .table-footer {
+    height: 50px;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .table-main {
+    height: calc(100% - 50px);
+
+    .el-table__header {
+
+      .el-table__cell {
+        background: @table-header-bg;
+      }
+    }
+  }
+
+  .w-table-slots {
+    flex-shrink: 0;
+  }
+}

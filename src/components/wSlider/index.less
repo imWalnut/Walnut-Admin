@@ -1,0 +1,49 @@
+.slider-verification {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  user-select: none;
+  margin-top: 20px;
+  background: @theme-border-color;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  width: 42px;
+  height: 48px;
+  cursor: move;
+  background-size: 30px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid @theme-border-color;
+  box-sizing: border-box;
+  background: @theme-color-white;
+}
+
+.slider-verify-success {
+  background: @theme-color-white;
+  background-size: 30px 30px;
+}
+
+//滑块滑过区域的样式
+.slider-left-bg {
+  background: @theme-color-blue;
+  width: 0;
+  height: 100%;
+}
+
+//提示文本样式
+.prompt-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  line-height: 48px;
+  color: @theme-color-white;
+}
